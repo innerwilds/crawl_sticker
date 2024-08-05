@@ -130,6 +130,12 @@ class CrawlStickerExampleApp extends StatelessWidget {
                       valueListenable: axisNotifier,
                       builder: (context, value, _) {
                         final tiles = List.generate(value == Axis.vertical ? 50 : 4, (i) {
+                          final stick = Stick(
+                            index: i,
+                            builder: i % 2 == 0 ? (context, type) {
+                              return type == StickType.visible ? const Icon(Icons.adb, size: 16) : const SizedBox.expand();
+                            } : null,
+                          );
                           return IntrinsicWidth(
                             child: IntrinsicHeight(
                               child: TextButton(
@@ -138,9 +144,9 @@ class CrawlStickerExampleApp extends StatelessWidget {
                                   child: value == Axis.vertical ? Row(
                                     children: [
                                       SizedBox(
-                                        width: 4,
-                                        height: 10,
-                                        child: Stick(index: i),
+                                        width: 16,
+                                        height: 16,
+                                        child: stick,
                                       ),
                                       const Padding(
                                         padding: EdgeInsets.only(left: 6),
@@ -154,18 +160,9 @@ class CrawlStickerExampleApp extends StatelessWidget {
                                         padding: EdgeInsets.only(top: 6),
                                       ),
                                       SizedBox(
-                                        width: 21,
-                                        height: 8,
-                                        child: Stick(
-                                          index: i,
-                                          builder: i % 2 == 0 ? (context, type) {
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                color: Color.fromARGB(255, rndc(), rndc(), rndc())
-                                              ),
-                                            );
-                                          } : null,
-                                        ),
+                                        width: 16,
+                                        height: 16,
+                                        child: stick,
                                       ),
                                     ],
                                   ),
