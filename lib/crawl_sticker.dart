@@ -227,6 +227,7 @@ class CrawlStickSurfaceState extends State<CrawlStickSurface>
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         InheritedSticksSurface(
           sticksKeys: _sticksKeys,
@@ -237,21 +238,25 @@ class CrawlStickSurfaceState extends State<CrawlStickSurface>
         AnimatedBuilder(
           animation: _controller,
           builder: (context, _) {
-            if (_controller.isCompleted ||
-                _controller.isDismissed ||
-                !_controller.isAnimating) {
-              return const SizedBox.shrink();
-            }
-
-            final width = _size!.value!.width;
-            final height = _size!.value!.height;
-            final child = widget.stickBuilder(
-                context, StickType.worm, Size(width, height));
+            final hidden = _controller.isCompleted || _controller.isDismissed || !_controller.isAnimating;
+            final width = _size?.value?.width;
+            final height = _size?.value?.height;
+            final size = width != null && height != null ? Size(width, height) : null;
+            final child = widget.stickBuilder(context, StickType.worm, size);
+            final alignLeft = _alignment?.value?.x;
+            final alignTop = _alignment?.value?.y;
+            final left = alignLeft != null && width != null ? alignLeft - (width / 2) : null;
+            final top = alignTop != null && height != null ? alignTop - (height / 2) : null;
 
             return Positioned(
-              left: _alignment!.value!.x - (width / 2),
-              top: _alignment!.value!.y - (height / 2),
-              child: child,
+              left: left,
+              top: top,
+              child: AnimatedOpacity(
+                duration: hidden ? const Duration(milliseconds: 120) : Duration.zero,
+                curve: Curves.linear,
+                opacity: hidden ? 0 : 1,
+                child: size == null ? const SizedBox.shrink() : child
+              ),
             );
           },
         )
