@@ -156,7 +156,16 @@ class CrawlStickerExampleApp extends StatelessWidget {
                                       SizedBox(
                                         width: 21,
                                         height: 8,
-                                        child: Stick(index: i),
+                                        child: Stick(
+                                          index: i,
+                                          builder: i % 2 == 0 ? (context, type) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                color: Color.fromARGB(255, rndc(), rndc(), rndc())
+                                              ),
+                                            );
+                                          } : null,
+                                        ),
                                       ),
                                     ],
                                   ),
