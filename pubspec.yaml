@@ -1,6 +1,6 @@
 name: crawl_sticker
 description: Crawling indicator for highlighting the selected list item
-version: 1.1.0
+version: 1.2.0
 homepage: https://github.com/innerwilds/crawl_sticker
 repository: https://github.com/innerwilds/crawl_sticker
 issue_tracker: https://github.com/innerwilds/crawl_sticker/issues
