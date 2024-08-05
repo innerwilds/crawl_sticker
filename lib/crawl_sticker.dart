@@ -287,22 +287,27 @@ class Stick extends StatelessWidget {
   const Stick({
     super.key,
     required this.index,
+    this.builder,
   }) : assert(index >= 0, 'Stick index must be greater or equal to 0');
 
   final int index;
+  final Widget Function(BuildContext, StickType)? builder;
 
   @override
   Widget build(BuildContext context) {
     final surface = CrawlStickSurface.of(context);
-    final visible = surface.selected == index;
 
     assert(index < surface.sticksKeys.length,
-        'Stick index was out of range for neares CrawlStickSurface with sticksCount set to ${surface.sticksKeys.length}');
+    'Stick index was out of range for neares CrawlStickSurface with sticksCount set to ${surface.sticksKeys.length}');
+
+    final visible = surface.selected == index;
+    final type = visible ? StickType.visible : StickType.hidden;
 
     return KeyedSubtree(
       key: surface.sticksKeys[index],
-      child: surface.stickBuilder(
-          context, visible ? StickType.visible : StickType.hidden, null),
+      child: builder != null ? builder!(context, type) : surface.stickBuilder(
+        context, type, null
+      ),
     );
   }
 }
