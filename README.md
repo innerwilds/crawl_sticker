@@ -31,9 +31,6 @@ Widget build(BuildContext context) {
       children: [
         SizedBox(
           width: 4,
-          height: 4,
-          // Stick itself uses stickBuilder from CrawlStickerSurface
-          // so we wrap it with SizedBox to pass fixed constraints and make it all same sizes
           child: Stick(index: 0),
         ),
         SizedBox(
